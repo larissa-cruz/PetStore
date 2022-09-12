@@ -24,7 +24,7 @@ public class Pet {
     }
 
     //Incluir - Create - Post
-    @Test //Identifica o método ou função como um teste para o TestNG
+    @Test(priority = 1) //Identifica o método ou função como um teste para o TestNG. Prioridade 1, ou seja, mais alta.
     public void incluirPet() throws IOException {
         String jsonBody = lerJson("db/pet1.json");
 
@@ -43,8 +43,29 @@ public class Pet {
                 .statusCode(200)
                 .body("name", is("Atena")) //linha de validação, verifica se o nome do cachorro é Snoopy.
                 .body("status", is("available")) //linha de validação, verifica se o status é avaliable.
-                .body("category.name", is("dog"))//linha de validação, verifica se o nome dentro de categoria é dog.
-                .body("tags.name", is("sta"))//linha de validação, como agora quero o nome que está dentro da tag (que é uma lista), precisei usar o contains, para ver se contém dentro da lista o nome "sta".
+                .body("category.name", is("AX5672LORD"))//linha de validação, verifica se o nome dentro de categoria é dog.
+                .body("tags.name", contains("data"))//linha de validação, como agora quero o nome que está dentro da tag (que é uma lista), precisei usar o contains, para ver se contém dentro da lista o nome "sta".
         ;
+    }
+    @Test(priority = 2) //prioridade 2, ou seja, primeiro inclui depois consulta
+    public void consultarPet() {
+        String petId = "1608199527";
+
+        String token =
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .get(uri + "/" + petId)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Atena"))
+                .body("category.name", is("AX5672LORD"))
+                .body("status", is("available"))
+        .extract()
+                .path("category.name")
+        ;
+                System.out.println("O token é " + token);
     }
 }
