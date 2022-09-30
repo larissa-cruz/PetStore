@@ -41,7 +41,7 @@ public class Pet {
         .then()//Então
                 .log().all()
                 .statusCode(200)
-                .body("name", is("Atena")) //linha de validação, verifica se o nome do cachorro é Snoopy.
+                .body("name", is("Atena")) //linha de validação, verifica se o nome do cachorro é Atena.
                 .body("status", is("available")) //linha de validação, verifica se o status é avaliable.
                 .body("category.name", is("AX5672LORD"))//linha de validação, verifica se o nome dentro de categoria é dog.
                 .body("tags.name", contains("data"))//linha de validação, como agora quero o nome que está dentro da tag (que é uma lista), precisei usar o contains, para ver se contém dentro da lista o nome "sta".
